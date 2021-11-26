@@ -1,2 +1,3 @@
-# mosaic
-Collection of Compile-Time Design Patterns
+# Mosaic
+
+A collection of compile-time design patterns.
