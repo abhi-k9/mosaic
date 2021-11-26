@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.2)
-
 set(This mosaicTests)
 
 set(
@@ -21,8 +19,9 @@ set_target_properties(
 target_include_directories(
     ${This} 
     PRIVATE 
-    ${mosaic_SOURCE_DIR}/include
-)
+    ${mosaic_SOURCE_DIR}/Mosaic/include
+    ${mosaic_SOURCE_DIR}/deps/googletest/include
+    )
 
 add_test(
     NAME ${This}
