@@ -2,7 +2,8 @@ set(This mosaicTests)
 
 set(
     Sources
-    src/mosaicTests.cpp
+    src/mosaic_test.cpp
+    src/typelist_test.cpp
     )
 
 add_executable(
@@ -22,6 +23,12 @@ target_include_directories(
     ${mosaic_SOURCE_DIR}/Mosaic/include
     ${mosaic_SOURCE_DIR}/deps/googletest/include
     )
+
+target_link_libraries(
+    ${This}
+    PRIVATE
+    ${mosaic_SOURCE_DIR}/deps/googletest/lib/libgtest.a
+)
 
 add_test(
     NAME ${This}
