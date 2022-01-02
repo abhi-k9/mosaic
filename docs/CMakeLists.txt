@@ -4,7 +4,7 @@ find_package(Sphinx REQUIRED)
 #--------------------------------------------------------
 
 # Find all the public headers.
-file(GLOB_RECURSE MOSAIC_PUBLIC_HEADERS ${mosaic_DOURCE_DIR}/include/mosaic/*.h)
+file(GLOB_RECURSE MOSAIC_PUBLIC_HEADERS ${mosaic_SOURCE_DIR}/include/mosaic/*.h)
 
 set(DOXYGEN_INPUT_DIR ${mosaic_SOURCE_DIR}/Mosaic)
 set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/doxygen)
