@@ -88,24 +88,25 @@ struct TypeAt <Typelist<H, T>, i> {
 /** @brief Get the type at a given index in the typelist.
  *  @tparam TL Typelist.
  *  @tparam i Index.
- *  @note Result is set to `NullType` if index is out-of-bounds.
+ *  @tparam Default Default type to return if index is out-of-bounds.
+ *  @note Result is set to given default if index is out-of-bounds.
  *  @sa TypeAt
  */ 
-template <class TL, int i> struct TypeAtNonStrict;
+template <class TL, int i, class Default> struct TypeAtNonStrict;
 
-template <>
-struct TypeAtNonStrict <NullType, 0> {
-    using Result = NullType;
+template <class Default, int i>
+struct TypeAtNonStrict <NullType, i, Default> {
+    using Result = Default;
 };
 
-template <class H, class T>
-struct TypeAtNonStrict <Typelist<H, T>, 0> {
+template <class H, class T, class Default>
+struct TypeAtNonStrict <Typelist<H, T>, 0, Default> {
     using Result = H;
 };
 
-template <class H, class T, int i>
-struct TypeAtNonStrict <Typelist<H, T>, i>{
-    using Result = TypeAtNonStrict<T, i-1>;
+template <class H, class T, int i, class Default>
+struct TypeAtNonStrict <Typelist<H, T>, i, Default>{
+    using Result = typename TypeAtNonStrict<T, i-1, Default>::Result;
 };
 
 /**************************************************/
