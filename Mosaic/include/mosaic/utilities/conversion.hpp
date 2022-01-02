@@ -67,10 +67,10 @@ public:
     }
 
     #define SUPERSUBCLASS(T, U) \
-        @"C++20 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. `Usage: SUPERCLASS<T, U>()`.
+        @"C++20 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. `Usage: SUPERCLASS<T, U>()`."
 
     #define SUPERSUBCLASS_STRICT(T, U) \
-        @"C++20 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. Usage: `SUPERCLASS_STRICT<T, U>()`.
+        @"C++20 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. Usage: `SUPERCLASS_STRICT<T, U>()`."
 
 /* Note: 
  *      `constexpr` NOT guaranteed to be evaluated at compile time at all places.
@@ -100,10 +100,10 @@ public:
     }
 
     #define SUPERSUBCLASS(T, U) \
-        @"C++11 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. `Usage: SUPERCLASS<T, U>()`.
+        @"C++11 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. `Usage: SUPERCLASS<T, U>()`."
 
     #define SUPERSUBCLASS_STRICT(T, U) \
-        @"C++11 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. Usage: `SUPERCLASS_STRICT<T, U>()`.
+        @"C++11 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. Usage: `SUPERCLASS_STRICT<T, U>()`."
 
 #else
 
