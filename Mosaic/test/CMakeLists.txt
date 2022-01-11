@@ -4,6 +4,7 @@ set(
     Sources
     src/mosaic_test.cpp
     src/typelist_test.cpp
+    src/type_traits_test.cpp
     )
 
 add_executable(
