@@ -111,7 +111,7 @@ public:
 /* Note: 
  *      `constexpr` NOT guaranteed to be evaluated at compile time at all places.
  */
-#elif __cplusplus >= 201103L // Compiler supports C++11 standard and above.
+#else
 
     template <class T, class U>
     constexpr bool SUPERSUBCLASS() {
@@ -136,12 +136,16 @@ public:
     }
 
     #define SUPERSUBCLASS(T, U) \
-        @"C++11 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. `Usage: SUPERCLASS<T, U>()`."
+        @"Please use `SUPERSUBCLASS` function instead of the macro. `Usage: SUPERCLASS<T, U>()`."
 
     #define SUPERSUBCLASS_STRICT(T, U) \
-        @"C++11 conforming compiler detected, please use `SUPERSUBCLASS` function instead of the macro. Usage: `SUPERCLASS_STRICT<T, U>()`."
+        @"Please use `SUPERSUBCLASS` function instead of the macro. Usage: `SUPERCLASS_STRICT<T, U>()`."
 
-#else
+#endif
+
+
+// Deprecated alternative
+#ifdef MACRO_SUPERSUBCLASS
 
     template <class T, class U>
     struct SuperSubClass {
