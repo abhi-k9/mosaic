@@ -10,7 +10,7 @@ TEST(MakeTLTest, CreateCorrectTypelist) {
     auto &created_typeinfo = typeid(typename mosaic::MakeTL<bool, char, int, double>::TL);
     auto &expected_typeinfo = typeid(mosaic::Typelist<bool, mosaic::Typelist<char, mosaic::Typelist<int, mosaic::Typelist<double, mosaic::NullType>>>>);
     
-    ASSERT_EQ(
+    EXPECT_EQ(
         created_typeinfo,
         expected_typeinfo
     )
