@@ -41,6 +41,42 @@ public:
     };
 };
 
+// Handle template parameter deduced as `void`.
+// `void` cannot be a fuction parameter type hence
+// the primary template gives compile error.
+template <class T>
+class Conversion<T, void>
+{
+public:
+    enum
+    {
+        exists = 0,
+        sameType = 0,
+    };
+};
+
+template <class T>
+class Conversion<void, T>
+{
+public:
+    enum
+    {
+        exists = 0,
+        sameType = 0,
+    };
+};
+
+template <>
+class Conversion<void, void>
+{
+public:
+    enum
+    {
+        exists = 1,
+        sameType = 1,
+    };
+};
+
 
 #if __cplusplus >= 202002L // Compiler supports C++20 standard and above.
 
