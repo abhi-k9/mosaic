@@ -5,6 +5,7 @@ set(
     src/mosaic_test.cpp
     src/typelist_test.cpp
     src/type_traits_test.cpp
+    src/hierarchy_generators_test.cpp
     )
 
 add_executable(
