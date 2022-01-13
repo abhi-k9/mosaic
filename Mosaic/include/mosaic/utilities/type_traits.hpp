@@ -96,7 +96,7 @@ namespace mosaic {
         template <class T>
         struct ReferenceTraits {
             enum {result = false};
-            using ReferredType = NullType;
+            using ReferredType = T;
         };
 
         template <class T>
@@ -105,12 +105,26 @@ namespace mosaic {
             using ReferredType = T;
         };
 
+        template <class T>
+        struct ReferenceTraits<T&&> {
+            enum {result = true};
+            using ReferredType = T;
+        };
 
-        /*! @brief Provide referece type for `T`.
+
+        /*! @brief Provide lvalue reference type for `T`.
          */
         template <class T>
-        struct AddReference {
+        struct AddLValReference {
             using Result = T&;
+        };
+
+
+        /*! @brief Provide lvalue reference type for `T`.
+         */
+        template <class T>
+        struct AddRValReference {
+            using Result = T&&;
         };
 
 
@@ -299,7 +313,8 @@ namespace mosaic {
      * - Get `FullyQualifiedType`: Adds both cv-qualifications.
      * - Get `PointerType`
      * - Get `PointeeType`
-     * - Get `ReferenceType`
+     * - Get `LValReferenceType`
+     * - Get `RValReferenceType`
      * - Get `ReferredType`
      * - Get `UnqualifiedRefferedType`: `ReferredType` without any cv-qualifications.
      * 
@@ -319,7 +334,8 @@ namespace mosaic {
         using FullyQualifiedType = typename internal::AddVolatile<ConstType>::Result;
         using PointerType = typename internal::AddPointer<T>::Result;
         using PointeeType = typename internal::PointerTraits<T>::PointeeType;
-        using ReferenceType = typename internal::AddReference<T>::Result;
+        using LValReferenceType = typename internal::AddLValReference<T>::Result;
+        using RValReferenceType = typename internal::AddRValReference<T>::Result;
         using ReferredType = typename internal::ReferenceTraits<T>::ReferredType;
         using UnqualifiedReferredType = typename internal::ReferenceTraits<UnqualifiedType>::ReferredType;
 
