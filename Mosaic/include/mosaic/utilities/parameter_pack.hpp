@@ -12,15 +12,16 @@ namespace mosaic{
 template <class, class ...> struct Split;
 
 template <class ...Types>
-struct Typelist {
-    using Head = Split<Types...>::Head;
-    using Tail = Split<Types...>::Tail;
+struct ParameterPack {
+    using HTSplit = Split<Types...>;
+    using Head = typename HTSplit::Head;
+    using Tail = typename HTSplit::Tail;
 };
 
 template <class H, class ...T>
 struct Split {
     using Head = H;
-    using Tail = Typelist<T...>;
+    using Tail = ParameterPack<T...>;
 };
 
 } // end namespace `mosaic`
