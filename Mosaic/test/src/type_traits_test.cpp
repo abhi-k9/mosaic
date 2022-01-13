@@ -54,10 +54,10 @@ TEST(TypeTraitsTest, ReferenceTraits) {
     ASSERT_TRUE(result);
     EXPECT_EQ(typeid(Result1), typeid(int));
 
-    //! @note Test for `AddReference` uses `ReferenceTraits`.
-    //! Keep their tests togather in sequence.
+    // NOTE: Test for `AddReference` uses `ReferenceTraits`.
+    // Keep their tests togather in sequence.
     using PType2 = int;
-    using Result2 = internal::AddReference<int>::Result;
+    using Result2 = internal::AddLValReference<int>::Result;
     
     using Temp2 = internal::ReferenceTraits<Result2>;
     ASSERT_TRUE(Temp2::result);
