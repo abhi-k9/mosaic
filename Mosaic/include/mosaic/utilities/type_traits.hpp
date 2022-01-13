@@ -90,6 +90,11 @@ namespace mosaic {
             using Result = T*;
         };
 
+        template <class T>
+        struct AddPointer <T&> {
+            using Result = T*;
+        };
+
 
         /*! @brief Detect if `T` is a reference. Make referee type available.
          */
