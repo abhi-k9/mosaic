@@ -12,7 +12,7 @@ struct Unit {
 };
 
 
-TEST(HierarchyGen, ScatterHierarchyNoRepeat) {
+TEST(HierarchyGen, ScatterHierarchyNoRepeatTypes) {
 
     using TL = typename mosaic::MakeTL<int, float, double, char>::TL;
     using SH = mosaic::GenScatterHierarchy<TL, Unit>;
@@ -42,7 +42,7 @@ struct SpecialUnit {
 
 template<class T> int SpecialUnit<T>::s = 0; 
 
-TEST(HierarchyGen, ScatterHierarchyAmbig) {
+TEST(HierarchyGen, ScatterHierarchyRepeatAmbiguityWorkaround) {
 
     using TL = typename mosaic::MakeTL<int, float, int, char>::TL;
     using SH = mosaic::GenScatterHierarchy<TL, SpecialUnit>;
