@@ -6,6 +6,7 @@ set(
     src/typelist_test.cpp
     src/type_traits_test.cpp
     src/hierarchy_generators_test.cpp
+    src/functor_test.cpp
     )
 
 add_executable(
