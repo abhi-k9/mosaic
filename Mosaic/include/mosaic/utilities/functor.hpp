@@ -24,6 +24,10 @@ namespace mosaic {
             std::unique_ptr<FunctorImpl> clone() const;
             virtual ~FunctorImpl() = default;
         
+            std::unique_ptr<FunctorImpl> clone() const {
+                return std::unique_ptr<FunctorImpl>(this->clone_impl());
+            }
+
         private:
             // Separated implementation for `clone()` to workaround the 
             // covariant return type restrictions on smart pointers.
