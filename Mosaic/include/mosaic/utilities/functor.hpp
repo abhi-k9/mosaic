@@ -20,8 +20,7 @@ namespace mosaic {
         class FunctorImpl {
         
         public:
-            virtual RetT operator()(Params&&...) const = 0;
-            std::unique_ptr<FunctorImpl> clone() const;
+            virtual RetT operator()(Params...) const = 0;
             virtual ~FunctorImpl() = default;
         
             std::unique_ptr<FunctorImpl> clone() const {
@@ -53,8 +52,8 @@ namespace mosaic {
                 return clone_impl();
             }
 
-            ParentRetT operator ()(ParentParams&&... params) const override {
-                return fun_(std::forward<ParentParams>(params) ...);
+            ParentRetT operator ()(ParentParams... params) const override {
+                return fun_(static_cast<ParentParams>(params) ...);
             }
 
         private:
@@ -85,8 +84,8 @@ namespace mosaic {
                 return clone_impl();
             }
 
-            ParentRetT operator ()(ParentParams&&... params) const override {
-                return fun_(std::forward<ParentParams>(params)...);
+            ParentRetT operator ()(ParentParams... params) const override {
+                return fun_(static_cast<ParentParams>(params)...);
             }
 
         private:
@@ -121,8 +120,8 @@ namespace mosaic {
                 return clone_impl();
             }
 
-            ParentRetT operator ()(ParentParams&&... params) const override {
-                return (p_obj_->*p_mem_fun_)(std::forward<ParentParams>(params) ...);
+            ParentRetT operator ()(ParentParams... params) const override {
+                return (p_obj_->*p_mem_fun_)(static_cast<ParentParams>(params) ...);
             }
 
         private:
@@ -203,8 +202,8 @@ namespace mosaic {
         }
 
         // Forwarding call operator
-        ReturnT operator()(Params&&... params) const {
-            return (*upImpl_)(std::forward<Params>(params) ...);
+        ReturnT operator()(Params... params) const {
+            return (*upImpl_)(static_cast<Params>(params) ...);
         }
 
         // Clone member function
