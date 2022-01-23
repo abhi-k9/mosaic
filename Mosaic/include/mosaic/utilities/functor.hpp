@@ -46,7 +46,8 @@ namespace mosaic {
 
             // Copy/Move constructors
             FunctorHandler(const Fun& fun): fun_(fun) {}
-            FunctorHandler(Fun&& fun): fun_(std::move(fun)) {}
+            FunctorHandler(Fun&& fun) noexcept: fun_(std::move(fun)) {}
+
 
             std::unique_ptr<FunctorHandler> clone() const {
                 return clone_impl();
