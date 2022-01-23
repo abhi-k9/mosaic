@@ -160,8 +160,11 @@ namespace mosaic {
     public:
 
         // Constructors
-        Functor(): upImpl_() {}
-        explicit Functor(std::unique_ptr<FunImpl> upImpl): upImpl_(std::move(upImpl_)) {}
+        // ------------
+        
+        Functor() = default;
+
+        explicit Functor(std::unique_ptr<FunImpl> upImpl): upImpl_(std::move(upImpl)) {}
 
         // Accept other functor objects
         template <class Fun>
@@ -174,12 +177,16 @@ namespace mosaic {
         
         // Accept functions
         template <typename FRetT, typename... FParams>
-        Functor(FRetT (&fun)(FParams ...)): 
-            upImpl_(
+        Functor(FRetT (&fun)(FParams ...))
+        : upImpl_(
                 std::make_unique<
                     FunctionHandler<FRetT(&)(FParams...)>
                 >(fun)
-            ) {}
+            ) 
+        { 
+            static_assert((Conversion<FParams, Params>::exists && ...), "One or more parameter types are not convertible!");
+            static_assert(Conversion<FRetT, ReturnT>::exists, "Return type is not convertible!"); 
+        }
 
         // Accept a object pointer, pointer to member function pair
         template<class ObjPointer, class MemFunPointer>
