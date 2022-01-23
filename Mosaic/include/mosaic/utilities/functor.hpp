@@ -1,7 +1,7 @@
 #pragma once
 
 /*! @file functor.hpp
- *  @brief Generate class inheritance hierarchies using typelists.
+ *  @brief Provides `Functor` class and related utilities.
  */
 
 
@@ -44,7 +44,7 @@ namespace mosaic {
 
         public:   
 
-            // Constructors
+            // Copy/Move constructors
             FunctorHandler(const Fun& fun): fun_(fun) {}
             FunctorHandler(Fun&& fun): fun_(std::move(fun)) {}
 
@@ -61,7 +61,7 @@ namespace mosaic {
             FunctorHandler* clone_impl() const override {
                 return new FunctorHandler(*this);
             }
-            
+
             // Data members
             Fun fun_;
 
@@ -77,8 +77,9 @@ namespace mosaic {
 
         public:   
 
-            // Constructor
+            // Copy constructor
             FunctionHandler(const FunctionT& fun): fun_(fun) {}
+
 
             std::unique_ptr<FunctionHandler> clone() const {
                 return clone_impl();
@@ -116,6 +117,7 @@ namespace mosaic {
             MemFunHandler(const PointerToObj& p_obj, PointerToMemFun p_mem_fun)
                 : p_obj_(p_obj), p_mem_fun_(p_mem_fun) {}
 
+
             std::unique_ptr<MemFunHandler> clone() const {
                 return clone_impl();
             }
@@ -134,6 +136,7 @@ namespace mosaic {
             // Allows user to decide which smart/raw pointer to use.
             PointerToObj p_obj_; 
             PointerToMemFun p_mem_fun_;
+
         };
 
     } // end `fun_internal` namespace
@@ -152,6 +155,7 @@ namespace mosaic {
     class Functor {
 
     private:
+
         using FunImpl = fun_internal::FunctorImpl<ReturnT, Params...>;
         template <class Function> using FunctorHandler = fun_internal::FunctorHandler<Function, ReturnT, Params...>;
         template <class Fun> using FunctionHandler = fun_internal::FunctionHandler<Fun, ReturnT, Params...>;
@@ -237,6 +241,7 @@ namespace mosaic {
         }
 
     private:
+
         std::unique_ptr<FunImpl> upImpl_;
 
     };
