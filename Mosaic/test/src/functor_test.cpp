@@ -22,21 +22,25 @@ struct TestStruct{
 
 };
 
+
 TEST(FunctorTest, FunctorObjTest) {
 
     auto test_obj1 = TestStruct();
     auto fun1 = mosaic::Functor<int, int>(test_obj1);
     EXPECT_EQ(fun1(10), 1);
 
+    // Test with `const` functor.
     const auto test_obj2 = TestStruct();
     auto fun2 = mosaic::Functor<int, int>(test_obj2);
     EXPECT_EQ(fun2(10), 1);
 
+    // Test with `rvalue` functor.
     auto test_obj3 = TestStruct();
     auto fun3 = mosaic::Functor<int, int>(std::move(test_obj3));
     EXPECT_EQ(fun3(10), 1);
 
 }
+
 
 TEST(FunctorTest, RetAndParamConversionTest) {
 
@@ -107,5 +111,17 @@ TEST(FunctorTest, MemberFunctionTest) {
     auto test_obj1 = TestStruct();
     auto fun1 = mosaic::Functor<int, int>(&test_obj1, mf);
     EXPECT_EQ(fun1(10), 1);
+
+}
+
+
+TEST(FunctorTest, BindFirstTest) {
+
+    auto lambda = [] (int i, int j) {return i + j;};
+    auto fun1 = mosaic::Functor<int, int, int>(lambda);
+
+    auto funb1 = mosaic::BindFirst(fun1, 2);
+
+    EXPECT_EQ(funb1(40), 42);
 
 }
