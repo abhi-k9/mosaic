@@ -247,4 +247,79 @@ namespace mosaic {
 
     };
 
+    /**************************************************/
+
+    namespace fun_internal {
+
+
+        /** @brief Class that stores and binds the first argument for a `Fuctor`.
+         */
+        template <typename FunctorT>
+        class BinderFirst;
+
+        template <typename RetT, typename BoundParamT, typename... UnboundParamsT>
+        class BinderFirst <Functor<RetT, BoundParamT, UnboundParamsT...>>
+            : public fun_internal::FunctorImpl<RetT, UnboundParamsT...>
+        {
+
+        private:
+
+            using InFunctor = Functor<RetT, BoundParamT, UnboundParamsT...>;
+            using OutFunctor = Functor<RetT, UnboundParamsT...>;
+            using BoundParamType = BoundParamT;
+
+        public:
+
+            // Constructors
+            BinderFirst(const InFunctor& func, BoundParamT bound): func_(func), bound_(bound) {};
+            BinderFirst(const InFunctor& func, BoundParamT&& bound): func_(func), bound_(std::move(bound)) {};
+            BinderFirst(InFunctor&& func, BoundParamT bound): func_(std::move(func)), bound_(bound) {};
+            BinderFirst(InFunctor&& func, BoundParamT&& bound) noexcept: func_(std::move(func)), bound_(std::move(bound)) {};
+
+
+            RetT operator()(UnboundParamsT... unbound_params) const override {
+                return func_(bound_, static_cast<UnboundParamsT>(unbound_params) ...);
+            }
+
+            std::unique_ptr<BinderFirst> clone() const {
+                return clone_impl();
+            }
+
+        private:
+
+            BinderFirst* clone_impl() const override {
+                return new BinderFirst(*this);
+            }
+
+            BoundParamT bound_;
+            InFunctor func_;
+
+        };
+
+    } // end `fun_internal` namespace
+
+
+    /** @brief Helper function to bind first argument of a `Functor`
+     *  @sa Functor
+     */
+    template <typename RetT, typename BoundParamT, typename... UnboundParamsT>
+    Functor<RetT, UnboundParamsT...>
+    BindFirst(
+        const Functor<RetT, BoundParamT, UnboundParamsT...>& fun,
+        BoundParamT bound) 
+    {
+
+        using InFunctor = Functor<RetT, BoundParamT, UnboundParamsT...>;
+        using OutFunctor = Functor<RetT, UnboundParamsT...>;
+        using OutFuncImpl = fun_internal::FunctorImpl<RetT, UnboundParamsT...>;
+     
+        std::unique_ptr<OutFuncImpl> u_ptr = 
+            std::make_unique<fun_internal::BinderFirst<InFunctor>>(fun, bound);
+     
+        return OutFunctor(std::move(u_ptr));
+
+    }
+
+    /**************************************************/
+
 } // end namespace `mosaic`
