@@ -189,16 +189,33 @@ namespace mosaic {
                     MemFunHandler<ObjPointer, MemFunPointer>
                 >(p_obj, p_mem_fun)
             ) {}
+        
+        // ------------
 
+        // Copy/Move constructors/assignment operators
+        // -------------------------------------------
 
+        // (Deep) Copy constructor
+        Functor(const Functor& other): upImpl_(std::move(other.clone().upImpl_)) {}
         // Move constructor
-        Functor(Functor&& other): upImpl_(std::move(other.upImpl_)) {}
-        // Move assignment operator
-        Functor& operator=(Functor&& rhs) {
-            if (this != &rhs) {
-                upImpl_ = std::move(rhs.upImpl_);
-            }
+        Functor(Functor&& other) noexcept: upImpl_(std::move(other.upImpl_)) {}
+        
+        // (Deep) Copy assignment operator
+        Functor& operator=(Functor rhs) noexcept{
+            swap(*this, rhs);
             return *this;
+        }
+        // Move assignment operator
+        Functor& operator=(Functor&& rhs) noexcept{
+            swap(*this, rhs);
+            return *this;
+        }
+
+        // -------------------------------------------
+
+        friend void swap(Functor& lhs, Functor& rhs) noexcept {
+            using std::swap;
+            swap(lhs.upImpl_, rhs.upImpl_);
         }
 
         // Forwarding call operator
