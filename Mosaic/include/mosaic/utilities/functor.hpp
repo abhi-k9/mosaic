@@ -208,7 +208,8 @@ namespace mosaic {
 
         // Clone member function
         Functor clone() const {
-            return Functor(std::make_unique<FunImpl>(upImpl_->clone()));
+            std::unique_ptr<FunImpl> u_ptr = upImpl_->clone();
+            return Functor(std::move(u_ptr));
         }
 
     private:
