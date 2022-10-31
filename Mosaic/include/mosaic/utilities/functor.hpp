@@ -8,7 +8,9 @@
 #include <memory>
 #include <utility>
 #include "type_traits.hpp"
-
+#if __cplusplus >= 202002L // Compiler supports C++20 standard and above.
+    #include <concepts>
+#endif
 
 namespace mosaic {
 
@@ -188,7 +190,8 @@ namespace mosaic {
                     FunctionHandler<FRetT(&)(FParams...)>
                 >(fun)
             ) 
-        { 
+        {
+            // Better error message if arguments/return types are not convertible. 
             static_assert((Conversion<FParams, Params>::exists && ...), "One or more parameter types are not convertible!");
             static_assert(Conversion<FRetT, ReturnT>::exists, "Return type is not convertible!"); 
         }
