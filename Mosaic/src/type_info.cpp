@@ -63,4 +63,4 @@ bool operator>=(const TypeInfo& lhs, const TypeInfo& rhs)
     return !(lhs < rhs);
 }
 
-} // end namespace mosaic
+} // end namespace `mosaic`
